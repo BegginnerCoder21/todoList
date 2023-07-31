@@ -1,6 +1,6 @@
 <template>
     <div>
-        <CreatingTodo />
+        <CreatingTodo :todoList="todoList" />
         <ButtonTodo />
         <UsersList />
     </div>
@@ -11,6 +11,9 @@
 import CreatingTodo from '../todolist/CreatingTodo.vue';
 import ButtonTodo from '../todolist/ButtonTodo.vue';
 import UsersList from '../todolist/UsersList.vue';
+import {reactive} from "vue"
+
+const todoList = reactive([]);
 
 </script>
 

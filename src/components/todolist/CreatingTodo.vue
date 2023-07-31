@@ -2,7 +2,7 @@
     <div class="apptodo">
         <div class="header">
             <h1>Quoi de neuf ?</h1>
-            <input type="text" placeholder="votre nom">
+            <input type="text" v-model="name" @input="saveName" placeholder="votre nom">
         </div>
         <div class="creating">
             <h2>Creer une tâche</h2>
@@ -12,7 +12,7 @@
                 <span>Selectionnez une categorie</span>
                 <div class="select">
                     <div class="selected">
-                        <input type="radio" name="select" id="business" value="business">
+                        <input type="radio"  name="select" id="business" value="business">
                         <label for="business">Business</label>
                     </div>
                     <div class="selected">
@@ -26,7 +26,27 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 
+const props = defineProps<{
+    todoList:string
+}>()
+const name = ref<string>();
+const savefirsName = ref();
+
+const saveName = () => {
+    clearInterval(savefirsName.value)
+    savefirsName.value = localStorage.setItem('savefirstname',JSON.stringify(name.value))
+}
+ 
+const sessionData = () => {
+    const sessionDatas = localStorage.getItem('savefirstname')
+    if(sessionDatas){
+        name.value = JSON.parse(sessionDatas);
+    }
+}
+
+sessionData();
 </script>
 
 <style scoped>
@@ -46,7 +66,8 @@
     margin-left: 6px;
     outline: none;
     height: 50px;
-    font-size: 20px;
+    font-size: 30px;
+    padding: 0px 0px 10px 0px;
 
 }
 
