@@ -7,7 +7,7 @@
         <div class="creating">
             <h2>Creer une tâche</h2>
             <span>Incrivez vos tâches à faire:</span>
-            <input type="text" placeholder="Tâche">
+            <input type="text" v-model="inputTodo" placeholder="Tâche">
             <div class="categorie">
                 <span>Selectionnez une categorie</span>
                 <div class="select">
@@ -21,28 +21,48 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <button @click="creatingTodo">Ajouter une tâche</button>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import type typeTodo from '../types/index'
 
-const props = defineProps<{
-    todoList:string
-}>()
-const name = ref<string>();
+const name = ref('');
 const savefirsName = ref();
 
 const saveName = () => {
     clearInterval(savefirsName.value)
     savefirsName.value = localStorage.setItem('savefirstname',JSON.stringify(name.value))
 }
+
+const inputTodo = ref('');
+const emit =defineEmits<{
+    (e:'add-todo',value:typeTodo):void
+    (e:'input-error'):void
+}>();
  
 const sessionData = () => {
-    const sessionDatas = localStorage.getItem('savefirstname')
-    if(sessionDatas){
-        name.value = JSON.parse(sessionDatas);
+    const localData = localStorage.getItem('savefirstname')
+    if(localData){
+        name.value = JSON.parse(localData);
+    }
+}
+
+const creatingTodo = () => {
+    if(inputTodo.value !== ''){
+        emit('add-todo',{
+            id:Date.now(),
+            todo:inputTodo.value
+        });
+
+        inputTodo.value = '';
+    }else{
+        emit('input-error')
     }
 }
 
@@ -53,6 +73,19 @@ sessionData();
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 .apptodo{
     margin-left: 40px;
+}
+
+button{
+    background-color: orange;
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    border-radius: 7px;
+    width: 500px;
+    margin-top: 20px;
+    cursor: pointer;
 }
 
 .header{

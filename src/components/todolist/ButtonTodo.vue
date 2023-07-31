@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button>Ajouter une tâche</button>
+        <button @click="$emit('add-todo')">Ajouter une tâche</button>
     </div>
 </template>
 
@@ -11,7 +11,7 @@
 <style scoped>
 
 button{
-    background-color: blueviolet;
+    background-color: orange;
     color: #fff;
     font-size: 20px;
     border: none;
