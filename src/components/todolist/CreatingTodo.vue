@@ -1,7 +1,7 @@
 <template>
-    <div class="apptodo">
+    <div class="apptodo" @keyup.enter="creatingTodo">
         <div class="header">
-            <h1>Quoi de neuf ?</h1>
+            <label>Quoi de neuf ?</label>
             <input type="text" v-model="name" @input="saveName" placeholder="votre nom">
         </div>
         <div class="creating">
@@ -22,10 +22,10 @@
                 </div>
             </div>
             <div>
-                <button @click="creatingTodo">Ajouter une tâche</button>
+                <button @click="creatingTodo" >Ajouter une tâche</button>
             </div>
         </div>
-    </div>
+    </div>  
 </template>
 
 <script setup lang="ts">
@@ -33,37 +33,37 @@ import { ref } from 'vue';
 import type typeTodo from '../types/index'
 
 const name = ref('');
-const savefirsName = ref();
 
 const saveName = () => {
-    clearInterval(savefirsName.value)
-    savefirsName.value = localStorage.setItem('savefirstname',JSON.stringify(name.value))
+const savefirsName = ref();
+clearInterval(savefirsName.value)
+savefirsName.value = localStorage.setItem('savefirstname',JSON.stringify(name.value))
 }
 
 const inputTodo = ref('');
 const emit =defineEmits<{
-    (e:'add-todo',value:typeTodo):void
-    (e:'input-error'):void
+(e:'add-todo',value:typeTodo):void
+(e:'input-error'):void
 }>();
- 
+
 const sessionData = () => {
-    const localData = localStorage.getItem('savefirstname')
-    if(localData){
-        name.value = JSON.parse(localData);
-    }
+const localData = localStorage.getItem('savefirstname')
+if(localData){
+    name.value = JSON.parse(localData);
+}
 }
 
 const creatingTodo = () => {
-    if(inputTodo.value !== ''){
-        emit('add-todo',{
-            id:Date.now(),
-            todo:inputTodo.value
-        });
+if(inputTodo.value !== ''){
+    emit('add-todo',{
+        id:Date.now(),
+        todo:inputTodo.value
+    });
 
-        inputTodo.value = '';
-    }else{
-        emit('input-error')
-    }
+    inputTodo.value = '';
+}else{
+    emit('input-error')
+}
 }
 
 sessionData();
@@ -100,14 +100,18 @@ button{
     outline: none;
     height: 50px;
     font-size: 30px;
-    padding: 0px 0px 10px 0px;
+    padding: 0px 0px 5px 0px;
 
 }
 
 .header input::placeholder{
     font-size: 25px;
-    margin-left: 10px;
 }
+
+.header label{
+    font-size: 35px;
+}
+
 
 .creating{
     display: flex;

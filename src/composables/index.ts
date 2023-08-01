@@ -1,22 +1,34 @@
-import CreatingTodo from '../components/todolist/CreatingTodo.vue';
-import UsersList from '../components/todolist/UsersList.vue';
 import {ref} from "vue"
 import type typeTodo from '../components/types/index'
 
 export default function inputTodo() {
     const errorShow = ref(false)
 
-const todoList = ref<typeTodo[]>([
-    {   id: Date.now(),
-        todo:'apprendre a coder le langage python'
-    },
-    {   id:Date.now(),
-        todo:'analyse le marché du forex'
-    },
-]);
+const todoList = ref<typeTodo[]>([]);
 
 const addTodo = (todos:typeTodo) => {
-    todoList.value.unshift(todos)
+    todoList.value.unshift(todos);
+    let saveList = localStorage.setItem('saveList',JSON.stringify(todoList.value))
+}
+
+const updateTodoList = (update:typeTodo) => {
+    todoList.value.forEach((upd) => {
+        if(update.id === upd.id){
+            upd.todo = update.todo;
+            let saveList = localStorage.setItem('saveList',JSON.stringify(todoList.value))
+        }
+    });
+}
+
+const removeTodoList = (removeTodo:typeTodo) => {
+    todoList.value = todoList.value.filter((remove) => removeTodo.id !== remove.id)
+    let saveList = localStorage.setItem('saveList',JSON.stringify(todoList.value))
+}
+const saveListTodo = () => {
+    let list = localStorage.getItem('saveList');
+    if(list){
+        todoList.value = JSON.parse(list);
+    }
 }
 
 const inputError = () => {
@@ -31,7 +43,9 @@ const inputError = () => {
         inputError,
         addTodo,
         todoList,
-        errorShow
-
+        errorShow,
+        saveListTodo,
+        updateTodoList,
+        removeTodoList
     }
 }

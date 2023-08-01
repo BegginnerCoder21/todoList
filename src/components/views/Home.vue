@@ -4,7 +4,7 @@
             <h2>le champ ne peut pas être vide</h2>
         </div>
         <CreatingTodo :todoList="todoList" @add-todo="addTodo" @input-error="inputError" />
-        <UsersList />
+        <UsersList :todoList="todoList" @update-todo-list="updateTodoList" @remove-todo-list="removeTodoList" />
     </div>
 </template>
 
@@ -17,9 +17,13 @@ const {
     inputError,
     addTodo,
     todoList,
-    errorShow
+    errorShow,
+    saveListTodo,
+    updateTodoList,
+    removeTodoList
 } = inputTodo()
 
+saveListTodo();
 
 
 </script>
