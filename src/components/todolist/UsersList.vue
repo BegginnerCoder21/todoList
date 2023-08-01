@@ -1,7 +1,7 @@
 <template>
     <label>Liste des tâches</label>
     <div class="list" v-for="todo in props.todoList">
-        <input type="radio">
+        <input type="radio" :class="todo.typeSelection ? 'styleB' : 'styleP'">
         <input v-model="todo.todo" type="text" @input="$emit('update-todo-list',todo)" >
         <button @click="$emit('remove-todo-list',todo)">Supprimer</button>
     </div>
@@ -15,11 +15,23 @@ const props = defineProps<{
     todoList:typeTodo[]
 }>();
 
-const value = ref()
-
 </script>
 
 <style scoped>
+
+ .styleB{
+    border: 2px solid orange;
+    box-shadow: 0px 0px 8px 1px orange;
+    border-radius: 50%;
+}
+.styleP{
+    border: 2px solid red;
+    box-shadow: 0px 0px 5px 0.25px red
+}
+
+.list input:checked{
+    text-decoration-style: line-through;
+}
 
 button{
     width: 100px;

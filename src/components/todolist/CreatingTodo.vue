@@ -12,11 +12,11 @@
                 <span>Selectionnez une categorie</span>
                 <div class="select">
                     <div class="selected">
-                        <input type="radio"  name="select" id="business" value="business">
+                        <input type="radio" @input="testB" checked  name="select" id="business" value="business">
                         <label for="business">Business</label>
                     </div>
                     <div class="selected">
-                        <input type="radio" name="select" id="personnel" value="personal">
+                        <input type="radio" @input="testP" name="select" id="personnel" value="personel">
                         <label for="personnel">personnel</label>
                     </div>
                 </div>
@@ -33,12 +33,24 @@ import { ref } from 'vue';
 import type typeTodo from '../types/index'
 
 const name = ref('');
+const bool = ref<boolean>(true);
 
 const saveName = () => {
 const savefirsName = ref();
 clearInterval(savefirsName.value)
-savefirsName.value = localStorage.setItem('savefirstname',JSON.stringify(name.value))
+savefirsName.value = localStorage.setItem('savefirstnames',JSON.stringify(name.value))
 }
+const testP = () => {
+    bool.value = false;
+    console.log(bool.value)
+}
+
+const testB = () => {
+    bool.value = true;
+    console.log(bool.value)
+}
+
+testB();
 
 const inputTodo = ref('');
 const emit =defineEmits<{
@@ -47,7 +59,7 @@ const emit =defineEmits<{
 }>();
 
 const sessionData = () => {
-const localData = localStorage.getItem('savefirstname')
+const localData = localStorage.getItem('savefirstnames')
 if(localData){
     name.value = JSON.parse(localData);
 }
@@ -57,7 +69,8 @@ const creatingTodo = () => {
 if(inputTodo.value !== ''){
     emit('add-todo',{
         id:Date.now(),
-        todo:inputTodo.value
+        todo:inputTodo.value,
+        typeSelection:bool.value
     });
 
     inputTodo.value = '';
@@ -86,6 +99,7 @@ button{
     width: 500px;
     margin-top: 20px;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 .header{
@@ -127,7 +141,17 @@ button{
     font-size: 23px;
 }
 
+input[type=radio]{
+
+  border-radius: 100%;
+  width: 18px;
+  height: 18px;
+
+}
+
+
 .creating input[type=text]{
+    margin-bottom: 20px;
     height: 40px;
     border-radius: 5px;
     width: 500px;
@@ -143,6 +167,16 @@ button{
     display: flex;
     flex-direction: column;
     
+}
+
+.creating .categorie .select div:first-of-type input[type=radio]{
+    border: 2px solid orange;
+    box-shadow: 0px 0px 8px 1px orange;
+    border-radius: 50%;
+}
+.creating .categorie .select div:last-of-type input[type=radio]{
+    border: 2px solid red;
+    box-shadow: 0px 0px 5px 0.25px red
 }
 
 

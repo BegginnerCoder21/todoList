@@ -1,6 +1,5 @@
-interface typeTodo{
+export default interface typeTodo{
     id:number,
     todo:string
+    typeSelection:boolean
 }
-
-export default typeTodo;

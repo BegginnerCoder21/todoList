@@ -8,24 +8,25 @@ const todoList = ref<typeTodo[]>([]);
 
 const addTodo = (todos:typeTodo) => {
     todoList.value.unshift(todos);
-    let saveList = localStorage.setItem('saveList',JSON.stringify(todoList.value))
+    console.log(todoList.value);
+    localStorage.setItem('saveLists',JSON.stringify(todoList.value))
 }
 
 const updateTodoList = (update:typeTodo) => {
     todoList.value.forEach((upd) => {
         if(update.id === upd.id){
             upd.todo = update.todo;
-            let saveList = localStorage.setItem('saveList',JSON.stringify(todoList.value))
+            localStorage.setItem('saveLists',JSON.stringify(todoList.value))
         }
     });
 }
 
 const removeTodoList = (removeTodo:typeTodo) => {
     todoList.value = todoList.value.filter((remove) => removeTodo.id !== remove.id)
-    let saveList = localStorage.setItem('saveList',JSON.stringify(todoList.value))
+    localStorage.setItem('saveLists',JSON.stringify(todoList.value))
 }
 const saveListTodo = () => {
-    let list = localStorage.getItem('saveList');
+    let list = localStorage.getItem('saveLists');
     if(list){
         todoList.value = JSON.parse(list);
     }
